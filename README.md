@@ -136,6 +136,7 @@ __Generates__
 #### esq.q(str, ..., str, value);
 Operates as `esq.query()`, but returns `this` so that `.q()` can be chained fluently.
 Call `.getQuery()` at the end of the chain to get the final result.
+
 __Example__
 ```javascript
 esq.q('query', 'bool', ['must'], { match: { foo: 'bar' } })
