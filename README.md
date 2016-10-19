@@ -134,21 +134,34 @@ __Generates__
 
 #### Fluent Interface
 #### esq.q(str, ..., str, value);
-Operates as `esq.query()`, but returns `this` so that query builders can be chained.
+Operates as `esq.query()`, but returns `this` so that `.q()` can be chained fluently.
 Call `.getQuery()` at the end of the chain to get the final result.
 __Example__
 ```javascript
-esq.q('filtered', 'query', { match: { foo: 'bar' } }).getQuery();
+esq.q('query', 'bool', ['must'], { match: { foo: 'bar' } })
+.q('query', 'bool', ['should'], { match: { baz: 'quux' } })
+.getQuery();
 ```
 
 __Generates__
 ```json
 {
-  "filtered": {
-    "query": {
-      "match": {
-        "foo": "bar"
-      }
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "foo": "bar"
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "baz": "quux"
+          }
+        }
+      ]
     }
   }
 }
