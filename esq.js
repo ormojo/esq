@@ -10,12 +10,19 @@
     return this._query;
   };
 
-  ESQ.prototype.query = function() {
-    var args = this._getArgsAsArray(arguments);
-    var value = args.pop();
+  ESQ.prototype._buildQuery = function(argArray) {
+    var value = argArray.pop();
+    this._createNestedObject(this._query, argArray, value);
+  };
 
-    this._createNestedObject(this._query, args, value);
+  ESQ.prototype.query = function() {
+    this._buildQuery(this._getArgsAsArray(arguments));
     return this._query;
+  };
+
+  ESQ.prototype.q = function() {
+    this._buildQuery(this._getArgsAsArray(arguments));
+    return this;
   };
 
   ESQ.prototype._createNestedObject = function(base, names, value) {

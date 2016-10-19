@@ -55,7 +55,45 @@ describe('Testing ESQ', function() {
       var result = esq.query('foo', false);
       assert.deepEqual(result, { foo: false });
     });
+  });
 
+  describe('q', function() {
+    it('with no args', function() {
+      var result = esq.q().getQuery();
+      assert.deepEqual(result, { });
+    });
+
+    it('with standard params', function() {
+      var result = esq.q('foo', 'bar', { }).getQuery();
+      assert.deepEqual(result, { foo: { bar: { } } });
+    });
+
+    it('with bad args', function() {
+      var result = esq.q('foo', 'bar', ['foobar'], 123).getQuery();
+      assert.deepEqual(result, { foo: { bar: { foobar: [ 123 ] } } });
+    });
+
+    it('with overwritted string', function() {
+      esq.q('foo', 'bar');
+      var result = esq.q('foo', 'bar2').getQuery();
+      assert.deepEqual(result, { foo: 'bar2' });
+    });
+
+    it('with overwritted number', function() {
+      esq.q('foo', 1);
+      var result = esq.q('foo', 42).getQuery();
+      assert.deepEqual(result, { foo: 42 });
+    });
+
+    it('with zero value', function() {
+      var result = esq.q('foo', 0).getQuery();
+      assert.deepEqual(result, { foo: 0 });
+    });
+
+    it('with false value', function() {
+      var result = esq.q('foo', false).getQuery();
+      assert.deepEqual(result, { foo: false });
+    });
   });
 
   describe('_createNestedObject', function() {
